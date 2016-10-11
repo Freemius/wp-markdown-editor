@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WP Markdown Editor
+ * Plugin Name: DO NOT UPDATE - WP Markdown Editor
  * Plugin URI: https://github.com/hoducha/wp-markdown-editor
  * Description: WP Markdown Editor replaces the default editor with a WYSIWYG Markdown Editor for your posts and pages.
  * Version: 2.0.3
