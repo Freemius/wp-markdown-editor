@@ -365,7 +365,7 @@ class WPCom_GHF_Markdown_Parser extends MarkdownExtra_Parser {
 		if ( $classname{0} == '.' )
 			$classname = substr( $classname, 1 );
 
-		$codeblock = esc_html( $codeblock );
+		// $codeblock = esc_html( $codeblock );
 		$codeblock = sprintf( $this->shortcode_start, $classname ) . "\n{$codeblock}" . $this->shortcode_end;
 		return "\n\n" . $this->hashBlock( $codeblock ). "\n\n";
 	}
