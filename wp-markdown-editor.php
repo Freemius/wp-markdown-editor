@@ -33,8 +33,8 @@ class WpMarkdownEditor
     private function __construct()
     {
         // Activation / Deactivation hooks
-        register_activation_hook(__FILE__, array($this, 'plugin_activation'));
-        register_deactivation_hook(__FILE__, array($this, 'plugin_deactivation'));
+//        register_activation_hook(__FILE__, array($this, 'plugin_activation'));
+//        register_deactivation_hook(__FILE__, array($this, 'plugin_deactivation'));
 
         // Load markdown editor
         add_action('admin_enqueue_scripts', array($this, 'enqueue_stuffs'));
@@ -68,7 +68,11 @@ class WpMarkdownEditor
             return;
         }
 
-        wp_enqueue_script('simplemde-js', $this->plugin_url('/simplemde/simplemde.min.js'));
+	    if (!post_type_supports( get_post_type(), WPCom_Markdown::POST_TYPE_SUPPORT )){
+		    return;
+	    }
+
+	    wp_enqueue_script('simplemde-js', $this->plugin_url('/simplemde/simplemde.min.js'));
         wp_enqueue_style('simplemde-css', $this->plugin_url('/simplemde/simplemde.min.css'));
         wp_enqueue_style('custom-css', $this->plugin_url('/style.css'));
     }
@@ -110,6 +114,10 @@ class WpMarkdownEditor
         if (get_current_screen()->base !== 'post') {
             return;
         }
+
+	    if (!post_type_supports( get_post_type(), WPCom_Markdown::POST_TYPE_SUPPORT )){
+		    return;
+	    }
 
         echo '<script type="text/javascript">
                 // Init the editor
@@ -165,7 +173,14 @@ class WpMarkdownEditor
 
     function quicktags_settings($qtInit)
     {
-        $qtInit['buttons'] = ' ';
+	    if (function_exists('get_current_screen')) {
+		    if ( get_current_screen()->base === 'post' &&
+		         post_type_supports( get_post_type(), WPCom_Markdown::POST_TYPE_SUPPORT )
+		    ) {
+			    $qtInit['buttons'] = ' ';
+		    }
+	    }
+
         return $qtInit;
     }
 
